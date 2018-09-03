@@ -14,7 +14,7 @@ public class Main {
         }
     }
 
-    /*adds a word as a key onto the hashmap with count 1, if the word hasn't appeared before in the text
+    /*if the word hasn't appeared before in the text, add the word as a key onto the hashmap with count 1
      if key already exists, then increases the amount of time word appears by one */
     //@param wordCount - the hashmap onto which we store/access the amount of time a word appears in a text
     //@param word - one word from the text
@@ -34,7 +34,10 @@ public class Main {
         //declare and initialize the hashmap, wordCount
         HashMap<String, Integer> wordCount = new HashMap<>();
 
-        //begin reading the file, if file exists
+        //counter to keep track of total number of words in text
+        int totalAmountOfWords = 0;
+
+        //if file exists, begin reading the file
         if(file.exists()){
             try{
                 Scanner scan = new Scanner(file);
@@ -47,11 +50,16 @@ public class Main {
                     word = word.toLowerCase().replaceAll("\\p{Punct}","");
 
                     addToHashMap(wordCount,word);
+
+                    //increment by one in each iteration of the loop
+                    ++totalAmountOfWords;
                 }
             }catch (Exception e){
                 System.out.print(e);
             }
         }
         displayHashmap(wordCount);
+
+        System.out.println("Total number of words in the text   =>  " + totalAmountOfWords);
     }
 }
