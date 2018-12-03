@@ -1,65 +1,63 @@
 package com.company;
 
-import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
 
 public class Main {
 
-    /*loops through the HashMap to display it*/
-    //@param hashmp - takes in the hashmap that the function will display
-    public static void displayHashmap(HashMap<String,Integer> hashmp){
-        for(String key : hashmp.keySet()){
-            System.out.println(key + "   =>   " + hashmp.get(key));
-        }
-    }
-
-    /*if the word hasn't appeared before in the text, add the word as a key onto the hashmap with count 1
-     if key already exists, then increases the amount of time word appears by one */
-    //@param wordCount - the hashmap onto which we store/access the amount of time a word appears in a text
-    //@param word - one word from the text
-    public static void addToHashMap (HashMap<String,Integer> wordCount, String word){
-        Integer count = 1;
-        if(wordCount.containsKey(word)){
-            Integer cnt = wordCount.get(word);
-            wordCount.put(word, ++cnt);
-        }else{
-            wordCount.put(word, count);
-        }
-    }
-
     public static void main(String[] args) {
-        File file = new File("Jabberwocky.txt");
+        ArrayList<Integer> winnersId = new ArrayList();             //Store the IDs of the winners
+        HashMap<Integer, Integer> rankingOfHand = new HashMap<>();  //Store the IDs and ranking of hand
+        ArrayList<Player> players = new ArrayList<>();              //Store the players in the game
 
-        //declare and initialize the hashmap, wordCount
-        HashMap<String, Integer> wordCount = new HashMap<>();
+        Scanner scan = new Scanner(System.in);
+        int numOfPlayers = scan.nextInt();
 
-        //counter to keep track of total number of words in text
-        int totalAmountOfWords = 0;
-
-        //if file exists, begin reading the file
-        if(file.exists()){
-            try{
-                Scanner scan = new Scanner(file);
-                while(scan.hasNext()){
-
-                    //get each token
-                    String word = scan.next();
-
-                    //make each word lowercase and get rid of all punctuation
-                    word = word.toLowerCase().replaceAll("\\p{Punct}","");
-
-                    addToHashMap(wordCount,word);
-
-                    //increment by one in each iteration of the loop
-                    ++totalAmountOfWords;
+        if(numOfPlayers > 0 && numOfPlayers < 24){
+            for(int i = 0; i < numOfPlayers; ++i){
+                int ID = scan.nextInt();                                //Get player's ID
+                Card[] playersHand = new Card[3];                       //Cards array declared and initialized
+                for(int j = 0; j < 3; ++j){
+                    String c = scan.next();
+                    Card aCard = new Card(c.charAt(0), c.charAt(1));    //Cards are created
+                    playersHand[j] = aCard;                             //Store cards into the cards array
                 }
-            }catch (Exception e){
-                System.out.print(e);
+                Player aPlayer = new Player(ID, playersHand);           //Players are created with unique IDs and individual hands
+                players.add(aPlayer);                                   //Players added to players arrayList
+            }
+        }else{
+            System.out.println("You gave an invalid number of players");
+        }
+
+        //Get the ranking/value of each player's hand
+        //Store the player's ID and ranking/value into a HashMap
+        for(Player p: players){
+            int rank = Poker.valueOfHand(p.getPlayersHand());
+            rankingOfHand.put(p.getID(), rank);
+        }
+
+        //Get the largest ranking/value among the hands
+        int maxHandCount = Collections.max(rankingOfHand.values());
+
+        //Finds the IDs with the largest ranking, store them into an ArrayList
+        for(Integer key : rankingOfHand.keySet()){
+            if(rankingOfHand.get(key) == maxHandCount){
+                winnersId.add(key);
             }
         }
-        displayHashmap(wordCount);
 
-        System.out.println("Total number of words in the text   =>  " + totalAmountOfWords);
+        //Sort the ArrayList in ascending order
+        Collections.sort(winnersId);
+
+        //Output the ID(s) of the winners(s)
+        for(Integer winner: winnersId) {
+            if (winner == winnersId.get(winnersId.size() - 1)) {
+                System.out.print(winner);
+            } else {
+                System.out.print(winner + " ");
+            }
+        }
     }
 }
