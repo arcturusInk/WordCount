@@ -6,7 +6,8 @@ The program does the following. It finds, the:
 - Longest word(s) in the text
 - Average word length in the text
 - Total number of characters in the text
-- Number of times a word appears in a text 
+- Total number of words in the text
+- Frequency in which a word appears in a text 
 
 ### The Process
 - Reads the file
