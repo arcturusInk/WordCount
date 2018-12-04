@@ -9,5 +9,5 @@ The program does the following. It finds, the:
 - Total number of words in the text
 - Frequency in which a word appears in a text 
 
-### Sample Output (from the Jabberwocky.txt file)
+### Sample Output (using Lewis Carroll's Jabberwocky.txt file)
 ![example](https://user-images.githubusercontent.com/9923181/49422848-5f731280-f763-11e8-9f8c-c38f7c5c99c5.png)
