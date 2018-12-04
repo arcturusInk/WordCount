@@ -9,9 +9,5 @@ The program does the following. It finds, the:
 - Total number of words in the text
 - Frequency in which a word appears in a text 
 
-### The Process
-- Reads the file
-- Outputs the word and the number of times the word appears in the given text in the following format: to   =>   1
-
 ### Sample Output (from the Jabberwocky.txt file)
 ![example](https://user-images.githubusercontent.com/9923181/49422848-5f731280-f763-11e8-9f8c-c38f7c5c99c5.png)
