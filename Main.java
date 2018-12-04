@@ -16,6 +16,15 @@ public class Main {
         }
     }
 
+    /*loops through the ArrayList to display it*/
+    //@param  arrayList - takes in the arrayList that the function will display
+    public static void displayArrayList(ArrayList<String> arrayList){
+        for(String word: arrayList){
+            System.out.print(word + " ");
+        }
+        System.out.println(); System.out.println();
+    }
+
     /*if the word hasn't appeared before in the text, add the word as a key onto the hashmap with count 1
      if key already exists, then increases the amount of time word appears by one */
     //@param wordCount - the hashmap onto which we store/access the amount of time a word appears in a text
@@ -30,28 +39,24 @@ public class Main {
         }
     }
 
-    public static ArrayList<String> maxFrequency (HashMap<String,Integer> wordCount){
-        ArrayList<String> containMaxWords = new ArrayList<>();
-        int maxFrequency = Collections.max(wordCount.values());
+    //Finds the word(s) that appeared the maximum or minimum times in the text
+    //@param wordCount - the hashmap onto which we store/access the amount of time a word appears in a text
+    //@param toMatch - can be the maximum or minimum frequency value
+    //@return containWords - an arrayList that contains the words
+    public static ArrayList<String> findMaxMinFrequency (HashMap<String,Integer> wordCount, int toMatch){
+        ArrayList<String> containWords = new ArrayList<>();
         for(String word: wordCount.keySet()){
-            if(wordCount.get(word) == maxFrequency){
-                containMaxWords.add(word);
+            if(wordCount.get(word) == toMatch){
+                containWords.add(word);
             }
         }
-        return containMaxWords;
+        return containWords;
     }
 
-    public static ArrayList<String> minFrequency (HashMap<String,Integer> wordCount){
-        ArrayList<String> containMinWords = new ArrayList<>();
-        int minFrequency = Collections.min(wordCount.values());
-        for(String word: wordCount.keySet()){
-            if(wordCount.get(word) == minFrequency){
-                containMinWords.add(word);
-            }
-        }
-        return containMinWords;
-    }
-
+    //Finds the longest length word in the text
+    //@param wordCount - the hashmap onto which we store/access the amount of time a word appears in a text
+    //@param maxWordLength - the length of the longest word
+    //@return longestWords - an arrayList that contains the longest-lenght word(s)
     public static ArrayList<String> longestLengthWord (HashMap<String,Integer> wordCount, int maxWordLength){
         ArrayList<String> longestWords = new ArrayList<>();
         for(String word: wordCount.keySet()){
@@ -71,9 +76,11 @@ public class Main {
         //counter to keep track of total number of words in text
         int totalAmountOfWords = 0;
 
+        //counter to keep track of the length of the longest word
         int maxWordLength = 0;
 
-        int totalLenOfAllWords = 0;
+        //counter to keep track of total number of chars in text
+        int totalCharLenOfAllWords = 0;
 
         //if file exists, begin reading the file
         if(file.exists()){
@@ -84,13 +91,15 @@ public class Main {
                     //get each token
                     String word = scan.next();
 
-                    //make each word lowercase and get rid of all punctuation
+                    //Taking care of basic pre-processing of data: make each word lowercase and get rid of all punctuation
                     word = word.toLowerCase().replaceAll("\\p{Punct}","");
 
                     addToHashMap(wordCount,word);
 
-                    totalLenOfAllWords += word.length();
+                    //getting the length of all the chars in each word
+                    totalCharLenOfAllWords += word.length();
 
+                    //finding the length of the longest word
                     if(word.length() > maxWordLength){
                         maxWordLength = word.length();
                     }
@@ -104,32 +113,25 @@ public class Main {
         }
 
         System.out.println("Word(s) that appeared the most in the text: ");
-        ArrayList<String> mostFrequentlyAppearedWords = maxFrequency(wordCount);
-        for(String word: mostFrequentlyAppearedWords){
-            System.out.print(word + " ");
-        }
-        System.out.println(); System.out.println();
+        int maxFrequency = Collections.max(wordCount.values());
+        ArrayList<String> mostFrequentlyAppearedWords = findMaxMinFrequency(wordCount, maxFrequency);
+        displayArrayList(mostFrequentlyAppearedWords);
 
         System.out.println("Word(s) that appeared the least in the text: ");
-        ArrayList<String> leastFrequentlyAppearedWords = minFrequency(wordCount);
-        for(String word: leastFrequentlyAppearedWords){
-            System.out.print(word + " ");
-        }
-        System.out.println(); System.out.println();
+        int minFrequency = Collections.min(wordCount.values());
+        ArrayList<String> leastFrequentlyAppearedWords = findMaxMinFrequency(wordCount, minFrequency);
+        displayArrayList(leastFrequentlyAppearedWords);
 
         System.out.println("The longest word(s) in the text: ");
         ArrayList<String> longestLengthWords = longestLengthWord(wordCount, maxWordLength);
-        for(String word: longestLengthWords){
-            System.out.print(word + " ");
-        }
-        System.out.println(); System.out.println();
+        displayArrayList(longestLengthWords);
 
-        System.out.println("Average word length in the text   =>  " + totalLenOfAllWords/totalAmountOfWords);
-        System.out.println("Total number of characters in the text   =>  " + totalLenOfAllWords);
-        System.out.println("Total number of words in the text   =>  " + totalAmountOfWords);
+        System.out.println("Average word length in the text:  " + totalCharLenOfAllWords/totalAmountOfWords);
+        System.out.println("Total number of characters in the text:  " + totalCharLenOfAllWords);
+        System.out.println("Total number of words in the text: " + totalAmountOfWords);
         System.out.println();
 
-        System.out.println("The frequency in which each word appeared in the text: ");
+        System.out.println("Frequency in which each word appeared in the text: ");
         displayHashmap(wordCount);
     }
 }
