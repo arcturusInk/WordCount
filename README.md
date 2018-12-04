@@ -1,12 +1,12 @@
 # TextAnalysis
-The program does the following:
+The program does the following. It finds, the:
 -
-- Finds the word(s) that appeared the most in the text
-- Finds the word(s) that appeared the least in the text
-- Finds the longest word(s) in the text
+- Word(s) that appeared the most in the text
+- Word(s) that appeared the least in the text
+- Longest word(s) in the text
 - Average word length in the text
 - Total number of characters in the text
-- Counts the number of times a word appears in a text 
+- Number of times a word appears in a text 
 
 ### The Process
 - Reads the file
