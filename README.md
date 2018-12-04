@@ -1,4 +1,4 @@
-# WordAnalysis
+# TextAnalysis
 Count the number of times a word appears in a text 
 
 ### The Process
